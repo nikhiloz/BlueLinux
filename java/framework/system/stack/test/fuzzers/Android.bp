@@ -1,0 +1,135 @@
+package {
+    // See: http://go/android-license-faq
+    // A large-scale-change added 'default_applicable_licenses' to import
+    // all of the 'license_kinds' from "system_bt_license"
+    // to get the below license kinds:
+    //   SPDX-license-identifier-Apache-2.0
+    default_applicable_licenses: ["system_bt_license"],
+}
+
+cc_defaults {
+    name: "bluetooth_fuzz_stack_defaults",
+    defaults: [
+        "fluoride_defaults",
+        "latest_android_hardware_audio_common_ndk_static",
+        "latest_android_hardware_bluetooth_audio_ndk_static",
+        "latest_android_media_audio_common_types_ndk_static",
+    ],
+    cflags: [
+        // Fuzzers are hopeless..
+        "-Wno-missing-prototypes",
+    ],
+    include_dirs: [
+        "packages/modules/Bluetooth/system",
+        "packages/modules/Bluetooth/system/bta/include",
+        "packages/modules/Bluetooth/system/bta/sys",
+        "packages/modules/Bluetooth/system/gd",
+        "packages/modules/Bluetooth/system/include",
+        "packages/modules/Bluetooth/system/stack/include",
+        "packages/modules/Bluetooth/system/stack/test",
+    ],
+    static_libs: [
+        "android.hardware.audio.common@5.0",
+        "android.hardware.bluetooth.audio@2.0",
+        "android.hardware.bluetooth.audio@2.1",
+        "android.hardware.bluetooth@1.0",
+        "android.hardware.bluetooth@1.1",
+        "android.hardware.common-V2-ndk",
+        "android.hardware.common.fmq-V1-ndk",
+        "android.system.suspend-V1-ndk",
+        "android.system.suspend.control-V1-ndk",
+        "bluetooth_flags_c_lib",
+        "libFraunhoferAAC",
+        "libbluetooth-types",
+        "libbluetooth_core_rs",
+        "libbluetooth_crypto_toolbox",
+        "libbluetooth_gd",
+        "libbluetooth_log",
+        "libbt-audio-hal-interface",
+        "libbt-bta",
+        "libbt-btu-main-thread",
+        "libbt-common",
+        "libbt-hci",
+        "libbt-jni-thread",
+        "libbt-sbc-decoder",
+        "libbt-sbc-encoder",
+        "libbt-stack",
+        "libbtcore",
+        "libbtdevice",
+        "libbte",
+        "libbtif",
+        "libchrome",
+        "libcom.android.sysprop.bluetooth.wrapped",
+        "libexpresslog",
+        "libflags_rust_cpp_bridge",
+        "libg722codec",
+        "liblc3",
+        "libopus",
+        "libosi",
+        "libstatslog_bt",
+        "libstatslog_express",
+        "libtextclassifier_hash_static",
+        "libudrv-uipc",
+    ],
+    shared_libs: [
+        "libPlatformProperties",
+        "libaaudio",
+        "libaconfig_storage_read_api_cc",
+        "libbase",
+        "libbinder",
+        "libbinder_ndk",
+        "libcrypto",
+        "libcutils",
+        "libevent",
+        "libfmq",
+        "libhidlbase",
+        "liblog",
+        "libprotobuf-cpp-lite",
+        "libstatssocket",
+        "libutils",
+        "server_configurable_flags",
+    ],
+    target: {
+        android: {
+            static_libs: [
+                "libperfetto_client_experimental",
+            ],
+        },
+    },
+}
+
+cc_fuzz {
+    name: "bluetooth_fuzz_stack_a2dp",
+    defaults: ["bluetooth_fuzz_stack_defaults"],
+    srcs: ["a2dp/fuzz_a2dp.cc"],
+}
+
+cc_fuzz {
+    name: "bluetooth_fuzz_stack_a2dp_codec",
+    defaults: ["bluetooth_fuzz_stack_defaults"],
+    srcs: ["a2dp/codec/fuzz_a2dp_codec.cc"],
+}
+
+cc_fuzz {
+    name: "bluetooth_fuzz_stack_a2dp_codec_info",
+    defaults: ["bluetooth_fuzz_stack_defaults"],
+    srcs: ["a2dp/codec/fuzz_a2dp_codec_info.cc"],
+}
+
+cc_fuzz {
+    name: "bluetooth_fuzz_stack_a2dp_codec_config",
+    defaults: ["bluetooth_fuzz_stack_defaults"],
+    srcs: ["a2dp/codec/fuzz_a2dp_codec_config.cc"],
+}
+
+cc_fuzz {
+    name: "bluetooth_fuzz_stack_avrc",
+    defaults: ["bluetooth_fuzz_stack_defaults"],
+    srcs: ["avrc/fuzz_avrc.cc"],
+}
+
+cc_fuzz {
+    name: "bluetooth_fuzz_stack_sdp",
+    defaults: ["bluetooth_fuzz_stack_defaults"],
+    srcs: ["sdp/fuzz_sdp.cc"],
+}

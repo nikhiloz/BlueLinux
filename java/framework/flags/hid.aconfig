@@ -1,0 +1,120 @@
+package: "com.android.bluetooth.flags"
+container: "com.android.bt"
+
+flag {
+    name: "allow_switching_hid_and_hogp"
+    is_exported: true
+    namespace: "bluetooth"
+    description: "Allow switching between HID and HOGP supported on the same device"
+    bug: "320762367"
+}
+
+flag {
+    name: "close_hid_if_uhid_ready_too_slow"
+    namespace: "bluetooth"
+    description: "Close HID if UHID takes too long to be ready"
+    bug: "362665394"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "serialize_hogp_and_dis"
+    namespace: "bluetooth"
+    description: "start HOGP service discovery only after DIS discovery is finished"
+    bug: "367910199"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "dont_send_hid_set_idle"
+    namespace: "bluetooth"
+    description: "Don't send the SET IDLE HID message"
+    bug: "369310847"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "forward_get_set_report_failure_to_uhid"
+    namespace: "bluetooth"
+    description: "Forward GET/SET REPORT reply to UHID even when the request fails"
+    bug: "369748430"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "remove_pending_hid_connection"
+    namespace: "bluetooth"
+    description: "Remove the pending BTA HH connection instance when the device is removed"
+    bug: "377705101"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "hogp_reconnection"
+    namespace: "bluetooth"
+    description: "Allow reconnection from HOGP device irrespective of disconnection reason"
+    bug: "378162528"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "pending_hid_connection_cancellation"
+    namespace: "bluetooth"
+    description: "Properly cancel the pending connection to the already added devices"
+    bug: "381135214"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "disconnect_hid_channels_serially"
+    namespace: "bluetooth"
+    description: "Only disconnect control channel after interrupt channel disconnection is acked"
+    bug: "387937345"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "vup_for_pending_connection"
+    namespace: "bluetooth"
+    description: "Generate HID VUP for pending connections as well"
+    bug: "396747085"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "ignore_unselected_hid_transport_states"
+    namespace: "bluetooth"
+    description: "Ignore HID state transitions for transports that are not selected"
+    bug: "397460323"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "early_incoming_hid_connection"
+    namespace: "bluetooth"
+    description: "Allow early incoming HID connection"
+    bug: "398105207"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}

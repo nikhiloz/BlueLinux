@@ -1,0 +1,134 @@
+package: "com.android.bluetooth.flags"
+container: "com.android.bt"
+
+flag {
+    name: "auto_connect_on_multiple_hfp_when_no_a2dp_device"
+    namespace: "bluetooth"
+    description: "Auto connect to hfp device is there is no a2dp device to connect to"
+    bug: "305867804"
+}
+
+flag {
+    name: "is_sco_managed_by_audio"
+    namespace: "bluetooth"
+    description: "start and stop of the SCO is managed by Audio instead of Bluetooth"
+    bug: "315234036"
+}
+
+
+flag {
+    name: "hfp_software_datapath"
+    namespace: "bluetooth"
+    description: "enable HFP software decode/encode data path"
+    bug: "362865563"
+}
+
+flag {
+    name: "bta_ag_cmd_brsf_allow_uint32"
+    namespace: "bluetooth"
+    description: "Allow and ignore the RFU bits set to 0b1 rather than responding ERROR"
+    bug: "331129986"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "fix_hfp_qual_1_9"
+    namespace: "bluetooth"
+    description: "Fix multiple issues in CVSD fallback logics, which are blocking PTS HFP Qualification 1.9"
+    bug: "332650199"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "maintain_call_index_after_conference"
+    namespace: "bluetooth"
+    description: "Avoid change of clcc call index after call disconnects from conference"
+    bug: "345380335"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "ignore_notify_when_already_connected"
+    namespace: "bluetooth"
+    description: "Flag to ignore connect state notification from Native to Java layer when already connected"
+    bug: "346679106"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "update_sco_state_correctly_on_rfcomm_disconnect_during_codec_nego"
+    namespace: "bluetooth"
+    description: "Flag to set the SCO state correctly on RFCOMM disconnection during Codec Negotiation"
+    bug: "351778741"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "update_active_device_in_band_ringtone"
+    namespace: "bluetooth"
+    description: "Active device update the in band ringtone, but how ringtone is played is still decided by the headset"
+    bug: "349318724"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "choose_wrong_hfp_codec_in_specific_config"
+    namespace: "bluetooth"
+    description: "Flag to fix codec selection in nego when the peer device only support NB and SWB."
+    bug: "354070098"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "sco_state_machine_cleanup"
+    namespace: "bluetooth"
+    description: "Cleanup SCO SM if headset disconnected during opening."
+    bug: "391090332"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "non_conference_call_hangup"
+    namespace: "bluetooth"
+    description: "Active call hangup when conference call is in holding state "
+    bug: "388159341"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "check_peer_hf_indicator"
+    namespace: "bluetooth"
+    description: "Flag to check the peer HF indicator before setting feature mask"
+    bug: "383933502"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "enable_battery_level_update_only_through_hf_indicator"
+    namespace: "bluetooth"
+    description: "Flag to ignore vendor specific battery level update when HF indicator support is enabled."
+    bug: "385870861"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}

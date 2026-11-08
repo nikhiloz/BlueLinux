@@ -1,0 +1,18 @@
+module: "android.sysprop.bluetooth.A2dp"
+owner: Platform
+
+prop {
+    api_name: "src_sink_coexist"
+    type: Boolean
+    scope: Internal
+    access: Readonly
+    prop_name: "bluetooth.a2dp.src_sink_coexist.enabled"
+}
+
+prop {
+    api_name: "avdt_accept_open_timeout_ms"
+    type: Integer
+    scope: Internal
+    access: Readonly
+    prop_name: "bluetooth.a2dp.avdt_accept_open_timeout_ms"
+}

@@ -1,0 +1,5 @@
+package androidx.annotation;
+import java.lang.annotation.*;
+@Target({ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD})
+@Retention(RetentionPolicy.CLASS)
+public @interface Nullable {}

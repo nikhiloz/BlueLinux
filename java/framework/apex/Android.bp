@@ -1,0 +1,156 @@
+// Copyright (C) 2024 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+package {
+    default_applicable_licenses: ["Android-Apache-2.0"],
+}
+
+linker_config {
+    name: "btservices-linker-config",
+    src: "linker.config.json",
+    installable: false,
+}
+
+// Legacy Bluetooth apex prior to Baklava
+// This is kept for soong purposes but this apex doesn't do anything anymore
+// TODO b/383863941 delete
+apex {
+    enabled: false,
+    name: "com.android.btservices",
+    defaults: ["t-launched-apex-module"],
+    manifest: "apex_manifest.json",
+
+    key: "com.android.btservices.key",
+    certificate: ":com.android.btservices.certificate",
+    updatable: true,
+    compressible: false,
+    visibility: ["//packages/modules/common/build"],
+}
+
+apex_key {
+    name: "com.android.btservices.key",
+    public_key: "com.android.btservices.avbpubkey",
+    private_key: "com.android.btservices.pem",
+}
+
+android_app_certificate {
+    name: "com.android.btservices.certificate",
+    certificate: "com.android.btservices",
+}
+
+// Mainline bluetooth apex module.
+apex {
+    name: "com.android.bt",
+    defaults: ["b-launched-apex-module"],
+    // TODO b/356727632: remove min_sdk_version as this is set from b-launched-apex-module
+    min_sdk_version: "35",
+    manifest: "manifest.json",
+    bootclasspath_fragments: ["com.android.bt-bootclasspath-fragment"],
+    systemserverclasspath_fragments: ["com.android.bt-systemserverclasspath-fragment"],
+    file_contexts: ":com.android.bt-file_contexts",
+    compat_configs: [
+        "bluetooth-compat-config",
+        "bluetoothapk-platform-compat-config",
+        "framework-bluetooth-compat-config",
+    ],
+    apps: ["Bluetooth"],
+
+    multilib: {
+        first: {
+            // Extractor process runs only with the primary ABI.
+            jni_libs: [
+                "libbluetooth_jni",
+            ],
+        },
+    },
+
+    prebuilts: [
+        "audio_set_configurations_bfbs",
+        "audio_set_configurations_json",
+        "audio_set_scenarios_bfbs",
+        "audio_set_scenarios_json",
+        "bt_did.conf",
+        "bt_stack.conf",
+        "interop_database.conf",
+    ],
+    key: "com.android.bt.key",
+    certificate: ":com.android.bt.certificate",
+    updatable: true,
+    compressible: false,
+    visibility: ["//packages/modules/common/build"],
+}
+
+sdk {
+    name: "bt-module-sdk",
+    apexes: [
+        // Adds exportable dependencies of the APEX to the sdk,
+        // e.g. *classpath_fragments.
+        "com.android.bt",
+    ],
+}
+
+// Encapsulate the contributions made by the com.android.bluetooth to the bootclasspath.
+bootclasspath_fragment {
+    name: "com.android.bt-bootclasspath-fragment",
+    contents: ["framework-bluetooth"],
+    apex_available: ["com.android.bt"],
+
+    // The bootclasspath_fragments that provide APIs on which this depends.
+    fragments: [
+        {
+            apex: "com.android.art",
+            module: "art-bootclasspath-fragment",
+        },
+    ],
+
+    // Additional stubs libraries that this fragment's contents use which are
+    // not provided by another bootclasspath_fragment.
+    additional_stubs: [
+        "android-non-updatable",
+    ],
+
+    // Additional hidden API flag files to override the defaults. This must only be
+    // modified by the Soong or platform compat team.
+    hidden_api: {
+        max_target_r_low_priority: ["hiddenapi/hiddenapi-max-target-r-low-priority.txt"],
+        unsupported: ["hiddenapi/hiddenapi-unsupported.txt"],
+
+        // The following packages contain classes from other modules on the
+        // bootclasspath. That means that the hidden API flags for this module
+        // has to explicitly list every single class this module provides in
+        // that package to differentiate them from the classes provided by other
+        // modules. That can include private classes that are not part of the
+        // API.
+        split_packages: [
+            "android.bluetooth",
+        ],
+
+        // The following packages and all their subpackages currently only
+        // contain classes from this bootclasspath_fragment. Listing a package
+        // here won't prevent other bootclasspath modules from adding classes in
+        // any of those packages but it will prevent them from adding those
+        // classes into an API surface, e.g. public, system, etc.. Doing so will
+        // result in a build failure due to inconsistent flags.
+        package_prefixes: [
+            "android.bluetooth.le",
+            "com.android.bluetooth",
+        ],
+    },
+}
+
+systemserverclasspath_fragment {
+    name: "com.android.bt-systemserverclasspath-fragment",
+    standalone_contents: ["service-bluetooth"],
+    apex_available: ["com.android.bt"],
+}
