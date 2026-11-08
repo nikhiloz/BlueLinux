@@ -489,6 +489,21 @@ Please open an issue or submit a pull request with:
 - Test cases for new features
 - Updated documentation
 
+## Java & JNI Integration (java_jni/)
+
+This repository includes a dedicated Java and JNI integration directory (`java_jni/`) demonstrating how to bridge Java application layers to the BlueLinux native stack:
+
+- **`minimal_bt_jni.cpp`**: Lightweight custom JNI wrapper bridging Java to the native BlueLinux stack (linking directly against `libbt-brcm_stack.a`, `libbt-brcm_bta.a`, `libbt-brcm_gki.a`, and `libbt-utils.a`).
+- **`BluetoothDualSearchTest.java`**: Java application test verifying dual search results for both Classic Bluetooth Discovery and Bluetooth Low Energy (BLE) scanning.
+- **`build_jni.sh`**: Automated build script compiling `libbluetooth_jni.so`.
+
+### Running the Dual Search Test
+```bash
+cd java_jni
+./build_jni.sh
+java -Djava.library.path=build -cp ".:android.jar" com.test.BluetoothDualSearchTest
+```
+
 ## License
 
 [To be specified - check original Android Bluedroid license requirements]
