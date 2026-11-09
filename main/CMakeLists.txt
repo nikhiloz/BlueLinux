@@ -101,11 +101,11 @@ add_library(${LOCAL_MODULE} SHARED ${LOCAL_SRC_FILES})
 #add_library(${LOCAL_MODULE} ${LOCAL_SRC_FILES})
 #set_target_properties(${LOCAL_MODULE} PROPERTIES OUTPUT_NAME ${LOCAL_MODULE})
 set_target_properties(${LOCAL_MODULE} PROPERTIES PREFIX "")
-#target_link_libraries(${LOCAL_MODULE} ${CMAKE_THREAD_LIBS_INIT} 
-#libbt-hci
-#libbt-brcm_gki
-#libbt-brcm_stack
-#libbt-brcm_bta
-#libbt-utils
-#)
+target_link_libraries(${LOCAL_MODULE} ${CMAKE_THREAD_LIBS_INIT} 
+libbt-hci
+libbt-brcm_gki
+libbt-brcm_stack
+libbt-brcm_bta
+libbt-utils
+)
 
