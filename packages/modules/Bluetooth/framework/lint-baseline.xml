@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.4.0-alpha08" type="baseline" client="" dependencies="true" name="" variant="all" version="8.4.0-alpha08">
+
+    <issue
+        id="FlaggedApi"
+        message="Field `METADATA_EXCLUSIVE_MANAGER` is a flagged API and should be inside an `if (Flags.supportExclusiveManager())` check (or annotate the surrounding method `?` with `@FlaggedApi(Flags.FLAG_SUPPORT_EXCLUSIVE_MANAGER) to transfer requirement to caller`)"
+        errorLine1="    private static final int METADATA_MAX_KEY = METADATA_EXCLUSIVE_MANAGER;"
+        errorLine2="                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="packages/modules/Bluetooth/framework/java/android/bluetooth/BluetoothDevice.java"
+            line="902"
+            column="49"/>
+    </issue>
+
+    <issue
+        id="FlaggedApi"
+        message="Method `setMeasurementTimestampNanos()` is a flagged API and should be inside an `if (Flags.channelSounding25q2Apis())` check (or annotate the surrounding method `createFromParcel` with `@FlaggedApi(Flags.FLAG_CHANNEL_SOUNDING_25Q2_APIS) to transfer requirement to caller`)"
+        errorLine1="                    return new Builder(in.readDouble(), in.readDouble())"
+        errorLine2="                           ^">
+        <location
+            file="packages/modules/Bluetooth/framework/java/android/bluetooth/le/DistanceMeasurementResult.java"
+            line="385"
+            column="28"/>
+    </issue>
+
+    <issue
+        id="WrongConstant"
+        message="Flag not allowed here"
+        errorLine1="            return (mCapability >> 1) &amp; 1;"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="packages/modules/Bluetooth/framework/java/android/bluetooth/BluetoothHearingAid.java"
+            line="105"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="WrongConstant"
+        message="Flag not allowed here"
+        errorLine1="            return mCapability &amp; 1;"
+        errorLine2="                   ~~~~~~~~~~~~~~~">
+        <location
+            file="packages/modules/Bluetooth/framework/java/android/bluetooth/BluetoothHearingAid.java"
+            line="121"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="WrongConstant"
+        message="Flag not allowed here"
+        errorLine1="            mQualityReportId = rawData[0] &amp; 0xFF;"
+        errorLine2="                               ~~~~~~~~~~~~~~~~~">
+        <location
+            file="packages/modules/Bluetooth/framework/java/android/bluetooth/BluetoothQualityReport.java"
+            line="778"
+            column="32"/>
+    </issue>
+
+    <issue
+        id="WrongConstant"
+        message="Must be one of: OobData.LE_DEVICE_ROLE_PERIPHERAL_ONLY, OobData.LE_DEVICE_ROLE_CENTRAL_ONLY, OobData.LE_DEVICE_ROLE_BOTH_PREFER_PERIPHERAL, OobData.LE_DEVICE_ROLE_BOTH_PREFER_CENTRAL"
+        errorLine1="        mLeDeviceRole = -1; // Satisfy final"
+        errorLine2="                        ~~">
+        <location
+            file="packages/modules/Bluetooth/framework/java/android/bluetooth/OobData.java"
+            line="781"
+            column="25"/>
+    </issue>
+
+</issues>
