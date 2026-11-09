@@ -1,0 +1,65 @@
+// Copyright (C) 2021 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// ============================================================
+package {
+    default_applicable_licenses: ["Android-Apache-2.0"],
+}
+
+android_test {
+    name: "ServiceBluetoothTests",
+    defaults: ["service-bluetooth-buildflags"],
+    srcs: [
+        "src/**/*.java",
+        "src/**/*.kt",
+    ],
+
+    static_libs: [
+        "androidx.test.rules",
+        "flag-junit",
+        "frameworks-base-testutils",
+        "kotlinx_coroutines_test",
+        "libprotobuf-java-nano",
+        "mockito-target-extended-minus-junit4",
+        "platform-compat-test-rules",
+        "platform-parametric-runner-lib",
+        "platform-test-annotations",
+
+        // Linking source to test the working copy, not the on-device copy.
+        // Use 'pre-jarjar' so that we can reference symbols before renaming.
+        "service-bluetooth-pre-jarjar",
+        "truth",
+    ],
+
+    libs: [
+        "android.test.base.stubs.system",
+        "android.test.mock.stubs.system",
+        "android.test.runner.stubs.system",
+        "framework-bluetooth-pre-jarjar",
+        "service-bluetooth.change-ids",
+    ],
+    jni_libs: [
+        // these are needed for Extended Mockito
+        "libdexmakerjvmtiagent",
+        "libstaticjvmtiagent",
+    ],
+
+    test_suites: [
+        "general-tests",
+        "mts-bluetooth",
+        "mts-bt",
+    ],
+
+    min_sdk_version: "Tiramisu",
+}

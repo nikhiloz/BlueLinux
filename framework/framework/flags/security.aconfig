@@ -1,0 +1,127 @@
+package: "com.android.bluetooth.flags"
+container: "com.android.bt"
+
+flag {
+    name: "key_missing_classic_device"
+    namespace: "bluetooth"
+    description: "Key missing broadcast for Classic devices"
+    bug: "333634398"
+}
+
+flag {
+    name: "key_missing_ble_peripheral"
+    namespace: "bluetooth"
+    description: "Key missing broadcast for LE devices in peripheral role"
+    bug: "392895615"
+    metadata {
+      purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "key_missing_as_ordered_broadcast"
+    namespace: "bluetooth"
+    description: "Key missing broadcast would be send as ordered broadcast"
+    bug: "333634398"
+}
+
+flag {
+  name: "bta_av_setconfig_rej_type_confusion"
+  namespace: "bluetooth"
+  description: "Use stream control block for bta_av_setconfig_rej instead of a possibly incorrect union type"
+  bug: "341754333"
+  metadata {
+    purpose: PURPOSE_BUGFIX
+  }
+}
+
+flag {
+  name: "btsec_check_valid_discovery_database"
+  namespace: "bluetooth"
+  description: "Check for a valid discovery database before using it, and don't set up a discovery database for a new HF client if one has already been defined for it"
+  bug: "356201480"
+  metadata {
+    purpose: PURPOSE_BUGFIX
+  }
+}
+
+flag {
+  name: "le_enc_on_reconnect"
+  namespace: "bluetooth"
+  description: "Encrypt LE link on reconnection with bonded devices"
+  bug: "388864535"
+  metadata {
+    purpose: PURPOSE_BUGFIX
+  }
+}
+
+flag {
+  name: "btsec_avdt_msg_ind_type_confusion"
+  namespace: "bluetooth"
+  description: "Properly check current state and sig value of avdt rej/rsp messages before parsing"
+  bug: "358212054"
+  metadata {
+    purpose: PURPOSE_BUGFIX
+  }
+}
+
+flag {
+  name: "btsec_cycle_irks"
+  namespace: "bluetooth"
+  description: "Change the IRK per BT spec when all devices are unbonded"
+  bug: "372714979"
+  metadata {
+    purpose: PURPOSE_BUGFIX
+  }
+}
+
+flag {
+  name: "btsec_le_oob_pairing"
+  namespace: "bluetooth"
+  description: "Drop connection if a peer claims it has OOB data but no local OOB data is stored"
+  bug: "374376990"
+  metadata {
+    purpose: PURPOSE_BUGFIX
+  }
+}
+
+
+flag {
+  name: "opp_check_content_uri_permissions"
+  namespace: "bluetooth"
+  description: "Check that the launching application for OPP has read access to the given content URI, on Android V+"
+  bug: "375466974"
+  metadata {
+    purpose: PURPOSE_BUGFIX
+  }
+}
+
+flag {
+  name: "sec_disconnect_on_le_key_missing"
+  namespace: "bluetooth"
+  description: "Disconnect LE link when keys are missing during encryption"
+  bug: "376680866"
+  metadata {
+    purpose: PURPOSE_BUGFIX
+  }
+}
+
+flag {
+    name: "guard_bonded_device_properties"
+    namespace: "bluetooth"
+    description: "Don't update device properties for bonded devices from the device discovery results"
+    bug: "376928594"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+flag {
+    name: "disconnect_on_encryption_failure"
+    namespace: "bluetooth"
+    description: "Disconnect ACL link when encryption fails"
+    bug: "378764380"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}

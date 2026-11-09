@@ -1,0 +1,6 @@
+genrule_defaults {
+    name: "BluetoothGeneratedPackets_default",
+    tools: ["bluetooth_packetgen"],
+    cmd: "$(location bluetooth_packetgen) --fuzzing --testing --include=packages/modules/Bluetooth/system/pdl --out=$(genDir) $(in)",
+    defaults_visibility: [":__subpackages__"],
+}

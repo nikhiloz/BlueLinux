@@ -1,0 +1,107 @@
+package {
+    default_applicable_licenses: ["Android-Apache-2.0"],
+    default_visibility: ["//visibility:private"],
+}
+
+aconfig_declarations {
+    name: "bluetooth_aconfig_flags",
+    package: "com.android.bluetooth.flags",
+    container: "com.android.bt",
+    visibility: ["//packages/modules/Bluetooth/framework"],
+    // LINT.IfChange
+    srcs: [
+        "a2dp.aconfig",
+        "active_device_manager.aconfig",
+        "adapter.aconfig",
+        "avrcp.aconfig",
+        "avrcp_controller.aconfig",
+        "bta_dm.aconfig",
+        "btif_dm.aconfig",
+        "btm_ble.aconfig",
+        "connectivity.aconfig",
+        "dis.aconfig",
+        "framework.aconfig",
+        "gap.aconfig",
+        "gatt.aconfig",
+        "hal.aconfig",
+        "hap.aconfig",
+        "hci.aconfig",
+        "hfp.aconfig",
+        "hfpclient.aconfig",
+        "hid.aconfig",
+        "l2cap.aconfig",
+        "le_advertising.aconfig",
+        "le_scanning.aconfig",
+        "leaudio.aconfig",
+        "mapclient.aconfig",
+        "mcp.aconfig",
+        "metric.aconfig",
+        "opp.aconfig",
+        "pairing.aconfig",
+        "pbapclient.aconfig",
+        "ranging.aconfig",
+        "rfcomm.aconfig",
+        "rnr.aconfig",
+        "sco.aconfig",
+        "sdp.aconfig",
+        "security.aconfig",
+        "service_discovery.aconfig",
+        "sockets.aconfig",
+        "system_service.aconfig",
+        "vcp.aconfig",
+        "vsc.aconfig",
+    ],
+    // LINT.ThenChange(/flags/BUILD.gn)
+    exportable: true,
+}
+
+java_aconfig_library {
+    name: "bluetooth_flags_java_lib",
+    aconfig_declarations: "bluetooth_aconfig_flags",
+    visibility: ["//packages/modules/Bluetooth:__subpackages__"],
+    apex_available: ["com.android.bt"],
+    libs: ["framework-configinfrastructure.stubs.module_lib"],
+    sdk_version: "module_current",
+    min_sdk_version: "Tiramisu",
+}
+
+java_aconfig_library {
+    name: "bluetooth_exported_flags_java_lib",
+    aconfig_declarations: "bluetooth_aconfig_flags",
+    defaults: ["framework-minus-apex-aconfig-java-defaults"],
+    min_sdk_version: "VanillaIceCream",
+    mode: "exported",
+    visibility: [
+        "//cts/tests/tests/bluetooth:__subpackages__",
+        "//frameworks/base",
+        "//frameworks/base/packages/SettingsLib",
+    ],
+}
+
+cc_aconfig_library {
+    name: "bluetooth_flags_c_lib",
+    aconfig_declarations: "bluetooth_aconfig_flags",
+    host_supported: true,
+    visibility: ["//packages/modules/Bluetooth:__subpackages__"],
+    apex_available: ["com.android.bt"],
+    min_sdk_version: "Tiramisu",
+}
+
+cc_aconfig_library {
+    name: "bluetooth_flags_c_lib_for_test",
+    aconfig_declarations: "bluetooth_aconfig_flags",
+    mode: "test",
+    host_supported: true,
+    visibility: ["//packages/modules/Bluetooth/system:__subpackages__"],
+    min_sdk_version: "Tiramisu",
+}
+
+rust_aconfig_library {
+    name: "libbluetooth_aconfig_flags_rust",
+    host_supported: true,
+    crate_name: "bluetooth_aconfig_flags_rust",
+    aconfig_declarations: "bluetooth_aconfig_flags",
+    apex_available: ["com.android.bt"],
+    min_sdk_version: "Tiramisu",
+    visibility: ["//packages/modules/Bluetooth/system:__subpackages__"],
+}

@@ -1,0 +1,12 @@
+{
+  "bt-mainline-presubmit": [
+    {
+      "name": "bluetooth_test_gd_unit"
+    }
+  ],
+  "presubmit": [
+    {
+      "name": "bluetooth_test_gd_unit"
+    }
+  ]
+}

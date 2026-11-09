@@ -1,0 +1,50 @@
+cc_library {
+    name: "libbluetooth_log",
+    host_supported: true,
+    min_sdk_version: "33",
+    apex_available: ["com.android.bt"],
+    export_include_dirs: [
+        "include",
+    ],
+    shared_libs: [
+        "libbase",
+        "liblog",
+    ],
+    srcs: [
+        "src/vlog_android.cc",
+    ],
+
+    //                             WARNING
+    //
+    // Before adding any package to the visibility list of the _bluetooth_
+    // logging library: be aware that the burden of maintaining the dependents
+    // will _always_ fall on the library developer. Dependent repositories
+    // need to be updated for any breaking change.
+    //
+    // Always extend this list with strict package selection (e.g.
+    // "//hardware/interfaces/bluetooth/aidl/vts"), _never_ with open selection
+    // (e.g. "//vendor:__subpackages__").
+    //
+    visibility: [
+        "//hardware/interfaces/bluetooth/aidl/vts",
+        "//packages/modules/Bluetooth:__subpackages__",
+    ],
+}
+
+cc_test {
+    name: "libbluetooth_log_test",
+    test_suites: ["general-tests"],
+    defaults: ["mts_defaults"],
+    host_supported: true,
+    srcs: [
+        "src/truncating_buffer_test.cc",
+        "src/vlog_test.cc",
+    ],
+    static_libs: [
+        "libbluetooth_log",
+    ],
+    shared_libs: [
+        "libbase",
+        "liblog",
+    ],
+}

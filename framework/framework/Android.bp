@@ -1,0 +1,253 @@
+package {
+    default_visibility: [":__subpackages__"],
+    default_applicable_licenses: ["system_bt_license"],
+}
+
+// Added automatically by a large-scale-change that took the approach of
+// 'apply every license found to every target'. While this makes sure we respect
+// every license restriction, it may not be entirely correct.
+//
+// e.g. GPL in an MIT project might only apply to the contrib/ directory.
+//
+// Please consider splitting the single license below into multiple licenses,
+// taking care not to lose any license_kind information, and overriding the
+// default license using the 'licenses: [...]' property on targets as needed.
+//
+// For unused files, consider creating a 'fileGroup' with "//visibility:private"
+// to attach the license to, and including a comment whether the files may be
+// used in the current project.
+// See: http://go/android-license-faq
+license {
+    name: "system_bt_license",
+    visibility: [":__subpackages__"],
+    license_kinds: [
+        "SPDX-license-identifier-Apache-2.0",
+        "SPDX-license-identifier-BSD",
+        "SPDX-license-identifier-MIT",
+        "legacy_unencumbered",
+    ],
+    license_text: [
+        "NOTICE",
+    ],
+}
+
+filegroup {
+    name: "BluetoothGTestConfigTemplate",
+    srcs: [
+        "BluetoothGTestTemplate.xml",
+    ],
+}
+
+filegroup {
+    name: "BluetoothRustTestConfigTemplate",
+    srcs: [
+        "BluetoothRustTestTemplate.xml",
+    ],
+}
+
+// This default contains properties that should be common to all the cc targets
+// developed by the Bluetooth team.
+//
+// Be careful when adding new properties here:
+//  - The option should not impact negatively any target, for example "-Wno-*"
+//    options should not be added here but instead on every targets needing
+//    them to avoid allowing adding new warnings in targets that didn't contained
+//    them (you can use the bpmodify tool to ease the work of adding this warning
+//    everywhere) and also allows cleaning them one at a time.
+//
+//  - The option should apply to all the c/c++ code developed by the Bluetooth team:
+//    test, tools, fuzzers, etc, not only production targets, if you need to add an option
+//    for a subset of Bluetooth cc targets you should look at the defaults including this
+//    defaults like "fluoride_defaults" and "gd_defaults".
+//
+//  - Try to keep the name as precise as possible to document to the dependent of what
+//    this default contains. This also means that if you add a new option that isn't
+//    documented by the name of this default, rename it.
+//
+//  - Try avoiding adding option that would not fit "future" targets, for example dependencies,
+//    even if every modules of Bluetooth depends on a specific dependency it should be left out
+//    from this default to not push it for future targets that might not need it.
+cc_defaults {
+    name: "bluetooth_cflags",
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wextra",
+        "-Wmissing-prototypes",
+        // Override global.go that demote the error to a warning
+        "-Werror=format",
+        "-Werror=reorder-init-list",
+        "-Wthread-safety",
+    ],
+    c_std: "c99",
+    cpp_std: "c++20",
+    arch: {
+        riscv64: {
+            ldflags: ["-Wl,--no-relax"],
+        },
+    },
+}
+
+// List of tidy checks that are enabled for cc targets.
+// Note that the goal is not to enable all checks, many of them will
+// appear as noise especially in the modernize-* range.
+bluetooth_tidy_checks = [
+    "-*",
+    "misc-*",
+
+    // This check implements detection of local variables which could be declared
+    // as const but are not.
+    "-misc-const-correctness",
+
+    // Finds classes that contain non-static data members in addition to user-declared
+    // non-static member functions and diagnose all data members declared with a
+    // non-public access specifier.
+    "-misc-non-private-member-variables-in-classes",
+]
+
+// This default tidy checks that will be run against all the cc targets
+// developed by the Bluetooth team.
+cc_defaults {
+    name: "bluetooth_tidy",
+    tidy: true,
+    tidy_checks: bluetooth_tidy_checks,
+    tidy_checks_as_errors: bluetooth_tidy_checks,
+}
+
+java_defaults {
+    name: "bluetooth_errorprone_rules",
+    errorprone: {
+        enabled: true,
+        javacflags: [
+            "-Xep:AlmostJavadoc:ERROR",
+            "-Xep:AlreadyChecked:ERROR",
+            "-Xep:AmbiguousMethodReference:ERROR",
+            "-Xep:ArrayRecordComponent:ERROR",
+            "-Xep:AttemptedNegativeZero:ERROR",
+            "-Xep:BadImport:ERROR",
+            "-Xep:BadInstanceof:ERROR",
+            "-Xep:CatchAndPrintStackTrace:ERROR",
+            "-Xep:CatchFail:ERROR",
+            "-Xep:CheckReturnValue:ERROR",
+            "-Xep:ClassCanBeStatic:ERROR",
+            "-Xep:DateFormatConstant:ERROR",
+            "-Xep:DirectInvocationOnMock:ERROR",
+            "-Xep:DuplicateBranches:ERROR",
+            "-Xep:EmptyBlockTag:ERROR",
+            "-Xep:EmptyCatch:ERROR",
+            "-Xep:EnumOrdinal:ERROR",
+            "-Xep:EqualsGetClass:ERROR",
+            "-Xep:EqualsHashCode:ERROR",
+            "-Xep:EqualsIncompatibleType:ERROR",
+            "-Xep:FallThrough:ERROR",
+            "-Xep:FieldCanBeFinal:ERROR",
+            "-Xep:FieldCanBeLocal:ERROR",
+            "-Xep:FieldCanBeStatic:ERROR",
+            "-Xep:Finalize:ERROR",
+            "-Xep:ForEachIterable:ERROR",
+            "-Xep:FutureReturnValueIgnored:ERROR",
+            "-Xep:GuardedBy:ERROR",
+            "-Xep:HidingField:ERROR",
+            "-Xep:InconsistentHashCode:ERROR",
+            "-Xep:IncrementInForLoopAndHeader:ERROR",
+            "-Xep:InlineFormatString:ERROR",
+            "-Xep:InlineMeInliner:ERROR",
+            "-Xep:InvalidBlockTag:ERROR",
+            "-Xep:InvalidInlineTag:ERROR",
+            "-Xep:InvalidLink:ERROR",
+            "-Xep:InvalidParam:ERROR",
+            "-Xep:JavaLangClash:ERROR",
+            "-Xep:JavaUtilDate:ERROR",
+            "-Xep:JdkObsolete:ERROR",
+            "-Xep:LockOnNonEnclosingClassLiteral:ERROR",
+            "-Xep:LongFloatConversion:ERROR",
+            "-Xep:LoopOverCharArray:ERROR",
+            "-Xep:MethodCanBeStatic:ERROR",
+            "-Xep:MissingCasesInEnumSwitch:ERROR",
+            "-Xep:MixedMutabilityReturnType:ERROR",
+            "-Xep:MockNotUsedInProduction:ERROR",
+            "-Xep:ModifiedButNotUsed:ERROR",
+            "-Xep:ModifyCollectionInEnhancedForLoop:ERROR",
+            "-Xep:NarrowCalculation:ERROR",
+            "-Xep:NarrowingCompoundAssignment:ERROR",
+            "-Xep:NonApiType:ERROR",
+            "-Xep:NonAtomicVolatileUpdate:ERROR",
+            "-Xep:NonCanonicalType:ERROR",
+            "-Xep:NotJavadoc:ERROR",
+            "-Xep:NullOptional:ERROR",
+            "-Xep:NullableOptional:ERROR",
+            "-Xep:NullablePrimitive:ERROR",
+            "-Xep:NullableVoid:ERROR",
+            "-Xep:ObjectEqualsForPrimitives:ERROR",
+            // "-Xep:ObjectToString:ERROR", // Wrongfully reporting errors
+            "-Xep:OperatorPrecedence:ERROR",
+            "-Xep:RedundantControlFlow:ERROR",
+            "-Xep:ReferenceEquality:ERROR",
+            "-Xep:ReturnAtTheEndOfVoidFunction:ERROR",
+            "-Xep:ReturnFromVoid:ERROR",
+            "-Xep:SelfAssertion:ERROR",
+            "-Xep:StaticAssignmentInConstructor:ERROR",
+            "-Xep:StaticGuardedByInstance:ERROR",
+            "-Xep:StringCaseLocaleUsage:ERROR",
+            "-Xep:StringCharset:ERROR",
+            // "-Xep:StringSplitter:ERROR", // Not enabled in android platform
+            "-Xep:SynchronizeOnNonFinalField:ERROR",
+            "-Xep:ThreadJoinLoop:ERROR",
+            "-Xep:ToStringReturnsNull:ERROR",
+            "-Xep:TruthAssertExpected:ERROR",
+            "-Xep:TruthConstantAsserts:ERROR",
+            "-Xep:TruthGetOrDefault:ERROR",
+            "-Xep:TruthIncompatibleType:ERROR",
+            "-Xep:UndefinedEquals:ERROR",
+            "-Xep:UnnecessaryAssignment:ERROR",
+            "-Xep:UnnecessaryAsync:ERROR",
+            "-Xep:UnnecessaryStringBuilder:ERROR",
+            "-Xep:UnrecognisedJavadocTag:ERROR",
+            "-Xep:UnusedMethod:ERROR",
+            "-Xep:UnusedNestedClass:ERROR",
+            "-Xep:UnusedTypeParameter:ERROR",
+            "-Xep:UnusedVariable:ERROR",
+            "-Xep:VariableNameSameAsType:ERROR",
+            "-Xep:WaitNotInLoop:ERROR",
+            "-Xep:WakelockReleasedDangerously:ERROR",
+
+            // Exclude generated files
+            "-XepExcludedPaths:.*/srcjars/.*",
+
+            // The @InlineMe annotation could be made available, but it would
+            // apply on external facing API. This is not desired.
+            // For more context, see https://r.android.com/3303475
+            "-Xep:InlineMeSuggester:OFF",
+        ],
+    },
+}
+
+java_defaults {
+    name: "bluetooth_framework_errorprone_rules",
+    defaults: ["bluetooth_errorprone_rules"],
+    errorprone: {
+        extra_check_modules: ["error_prone_android_framework"],
+
+        javacflags: [
+            "-Xep:AndroidFrameworkBinderIdentity:ERROR",
+            "-Xep:AndroidFrameworkBluetoothPermission:ERROR",
+            "-Xep:AndroidFrameworkCompatChange:ERROR",
+            "-Xep:AndroidFrameworkEfficientParcelable:ERROR",
+            "-Xep:AndroidFrameworkEfficientStrings:ERROR",
+            "-Xep:AndroidFrameworkPendingIntentMutability:ERROR",
+            "-Xep:AndroidFrameworkRequiresPermission:ERROR",
+            "-Xep:AndroidFrameworkRethrowFromSystem:ERROR",
+            "-Xep:AndroidFrameworkTargetSdk:ERROR",
+            "-Xep:AndroidHideInComments:ERROR",
+
+            // After fixing this errorprone, we decided to not merge the change.
+            // It is not very readable and the benefits are minimal when looking
+            // at the size of the maps used in the Bluetooth application.
+            // See https://r.android.com/3200511
+            "-Xep:AndroidFrameworkEfficientCollections:OFF",
+
+            // Does not look pertinent in our situation
+            "-Xep:AndroidFrameworkEfficientXml:OFF",
+        ],
+    },
+}
